@@ -12,7 +12,7 @@ const printLogFormat = {
         label: "BAPP",
     }),
     timestamp({
-        format: "YYYY-MM-DD HH:mm:SS",
+        format: "YYYY-MM-DD HH:mm:ss",
     }),
     printFormat),
     console: combine(
