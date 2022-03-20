@@ -15,16 +15,28 @@ class OrderStorage {
             );
         })
     }
-    static getOrderInfo(categoryId) {
+    static getOrderInfo(orderId) {
         return new Promise((resolve, reject) => {
-            const query = "select * from orders where category_id = ?;";
+            const query = "select * from orders where id = ?;";
             db.query(
-                query, [categoryId], 
+                query, [orderId], 
                 (err, data) => {
                     if(err) reject(`${err}`);
-                    else resolve(data);
+                    else {
+                        const query = "select * from item where order_id = ?;";
+                        db.query(
+                            query, [orderId], 
+                            (err, data) => {
+                                if(err) reject(`${err}`);
+                                else resolve(data);
+                            }
+                        );
+                        
+                        resolve(data);
+                    }
                 }
             );
+
         })
     };
 }

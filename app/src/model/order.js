@@ -3,6 +3,24 @@
 const OrderStorage = require("./orderStorage");
 
 class Order {
+    async info(orderId) {
+        try {
+            const order = await OrderStorage.getOrderInfo(orderId);
+            if (!order) {
+                return { success: false, msg: `There is no order for id: ${orderId}` };
+            }
+            const response = {
+                success: true,
+                orderId: orderId,
+                items: [],
+            }
+            return response;
+
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
     async listAll() {
         try {
             const categories = await OrderStorage.getCategoryInfo();
@@ -30,30 +48,31 @@ class Order {
                 };
             }
             return response;
-            
+
         } catch (err) {
             return { success: false, err };
         }
     }
-    async list(categoryId) {
-        try {
-            const orders = await OrderStorage.getOrderInfo(categoryId);
-            if (orders) {
-                return { 
-                    success: true, 
-                    info: [
-                        {
-                            category: categoryId,
-                            orders: orders,
-                        },
-                    ],
-                };
-            };
-            return { success: false, msg: "Category ID not found" };
-        } catch (err) {
-            return { success: false, err };
-        }
-    }
+
+    // async list(categoryId) {
+    //     try {
+    //         const orders = await OrderStorage.getOrderInfo(categoryId);
+    //         if (orders) {
+    //             return { 
+    //                 success: true, 
+    //                 info: [
+    //                     {
+    //                         category: categoryId,
+    //                         orders: orders,
+    //                     },
+    //                 ],
+    //             };
+    //         };
+    //         return { success: false, msg: "Category ID not found" };
+    //     } catch (err) {
+    //         return { success: false, err };
+    //     }
+    // }
 }
 
 module.exports = Order;

@@ -14,6 +14,17 @@ const output = {
             res.render("home/index.ejs", { data: response.info });
         }
     },
+    order: async (req, res) => {
+        const orderId = req.params.orderId;
+        const order = new Order();
+        const response = await order.info(orderId);
+
+        // console.log(response);
+
+        if (response.success) {
+            return { success: true, order: response }
+        }
+    },
 }
 
 module.exports = {
