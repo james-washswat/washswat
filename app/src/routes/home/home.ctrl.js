@@ -6,12 +6,12 @@ const Order = require("../../model/order");
 const output = {
     home: async (req, res) => {
         const order = new Order();
-        const response = await order.list(2);
+        const response = await order.listAll();
 
-        console.log(response);
+        // console.log(response);
 
         if (response.success) {
-            res.render("home/index.ejs", response);
+            res.render("home/index.ejs", { data: response.info });
         }
     },
 }
