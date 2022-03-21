@@ -24,7 +24,7 @@ function createHTMLStringOpen(json) {
 
     let html = `<div class="accordion-body">`;
     for (let i in items) {
-        html = html.concat(`<h6>${items[i].name}</h6>`);
+        html = html.concat(`<h5><span class="badge rounded-pill bg-light text-dark">${items[i].name}</span></h5>`);
     }
     html = html.concat(`<div>`);
 
