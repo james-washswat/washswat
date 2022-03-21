@@ -1,50 +1,30 @@
-function loadItems() {
-    return fetch('data/data.json')
-    .then(response => response.json())
-    .then(json => json.items);
-}
- 
-function displayItems(items) {
-    const container = document.querySelector('.items');
-    container.innerHTML = items.map(item => createHTMLString(item)).join('');
-}
- 
-//Create HTML list item from the given data item
-function createHTMLString(item) { 
-    return `  
-    <li class="item">
-        <img src="${item.image}" alt="${item.type}" class="item__thumbnail">
-        <span class="item__description">${item.gender}, ${item.size}</span>
-    </li>        
-    `; 
-}
- 
-//Handle button click
-function onButtonClick(event, items) {
-    const dataset = event.target.dataset;
-    const key = dataset.key;
-    const value =dataset.value;
- 
-    if(key == null || value == null) {
+function showItems(orderId) {
+    const expanded = document.querySelector(`#${orderId}`).getAttribute("aria-expanded");
+    console.log(expanded)
+    if (expanded == "false") {
         return;
     }
- 
-    displayItems(items.filter(item => item[key] === value));
+    fetch(`orders/${orderId}`)
+    .then(response => response.json())
+    .then(json => {
+        displayItems(orderId, json);
+    });
 }
  
-function setEventListeners(items) {
-    const logo = document.querySelector('.logo');
-    const buttons = document.querySelector('.buttons');
-    logo.addEventListener('click', () => displayItems(items));
-    buttons.addEventListener('click', event => onButtonClick(event, items));
+function displayItems(orderId, json) {
+    const container = document.querySelector(`#collapse-${orderId}`);
+    container.innerHTML = createHTMLStringOpen(json);
 }
- 
-loadItems() 
-.then(items => {
-  console.log(items);
-    displayItems(items);
-    setEventListeners(items);
-})
-.catch(console.log);
- 
- 
+
+function createHTMLStringOpen(json) { 
+    const data = JSON.parse(json);
+    const items = data.items;
+
+    let html = `<div class="accordion-body">`;
+    for (var i in items) {
+        html = html.concat(`<h6>${items[i].name}</h6>`);
+    }
+    html = html.concat(`<div>`);
+
+    return html;
+}

@@ -11,7 +11,7 @@ const output = {
         // console.log(response);
 
         if (response.success) {
-            res.render("home/index.ejs", { data: response.info });
+            res.render("home/index2.ejs", { data: response.info });
         }
     },
     order: async (req, res) => {
@@ -19,11 +19,9 @@ const output = {
         const order = new Order();
         const response = await order.info(orderId);
 
-        // console.log(response);
+        console.log(response);
 
-        if (response.success) {
-            return { success: true, order: response }
-        }
+        res.json(JSON.stringify(response));
     },
 }
 

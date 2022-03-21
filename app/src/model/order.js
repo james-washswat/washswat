@@ -5,17 +5,15 @@ const OrderStorage = require("./orderStorage");
 class Order {
     async info(orderId) {
         try {
-            const order = await OrderStorage.getOrderInfo(orderId);
+            const order = await OrderStorage.getOrderDetails(orderId);
             if (!order) {
                 return { success: false, msg: `There is no order for id: ${orderId}` };
             }
-            const response = {
+            return {
                 success: true,
                 orderId: orderId,
-                items: [],
+                items: order.items,
             }
-            return response;
-
         } catch (err) {
             return { success: false, err };
         }
@@ -37,7 +35,7 @@ class Order {
                 const cateName = categories[i].name
                 const cateOrderCnt = categories[i].order_cnt
 
-                const orders = await OrderStorage.getOrderInfo(cateId);
+                const orders = await OrderStorage.getOrderList(cateId);
                 if (orders) {
                     response.info.push({
                         category: cateId,

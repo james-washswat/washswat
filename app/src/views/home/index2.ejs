@@ -13,7 +13,7 @@
     <div class="container-fluid">
         <div class="row flex-nowrap text-center">
             <% for(var i=0; i < data.length; i++) { %>
-            <div class="col-lg-1 fs-4">
+            <div class="col-lg-2 fs-4">
                 <!-- 카테고리 이름 -->
                 <div>
                     <p><%= data[i].categoryName %></p>
@@ -24,17 +24,31 @@
                 </div>
                 <div>
                     <div class="row">
-                        <% for(var j=0; j < data[i].orders.length; j++) { %>
-                        <div class="col">
+                        <% for(let j=0; j < data[i].orders.length; j++) { %>
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="heading-<%= data[i].orders[j].id %>">
+                                    <button id="<%= data[i].orders[j].id %>" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= data[i].orders[j].id %>" aria-expanded="false" aria-controls="collapse-<%= data[i].orders[j].id %>" onclick="showItems('<%= data[i].orders[j].id %>');">
+                                        <%= data[i].orders[j].id %>
+                                    </button>
+                                  </h2>
+                                  <div id="collapse-<%= data[i].orders[j].id %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= data[i].orders[j].id %>" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h6></h6>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        <!-- <div class="col">
                             <p>
                                 <button id="<%= data[i].orders[j].id %>" class="btn btn-primary fs-6" type="submit" onclick="showItems('<%= data[i].orders[j].id %>');">
                                     <%= data[i].orders[j].id %>
                                 </button>
-                                <div id="collapse-<%= data[i].orders[j].id %>" expend="false">
+                                <div id="items_<%= data[i].orders[j].id %>" extend="false">
                                     <h6></h6>
                                 </div>
                             </p>
-                        </div>
+                        </div> -->
                         <% } %>
                     </div>
                 </div>

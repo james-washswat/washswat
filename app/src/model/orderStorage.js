@@ -15,7 +15,7 @@ class OrderStorage {
             );
         })
     }
-    static getOrderInfo(orderId) {
+    static getOrderDetails(orderId) {
         return new Promise((resolve, reject) => {
             const query = "select * from orders where id = ?;";
             db.query(
@@ -28,17 +28,31 @@ class OrderStorage {
                             query, [orderId], 
                             (err, data) => {
                                 if(err) reject(`${err}`);
-                                else resolve(data);
+                                else resolve({
+                                    orderId: orderId,
+                                    items: data,
+                                });
                             }
                         );
-                        
-                        resolve(data);
                     }
                 }
             );
 
-        })
-    };
+        });
+    }
+    static getOrderList(categoryId) {
+        return new Promise((resolve, reject) => {
+            const query = "select * from orders where category_id = ?;";
+            db.query(
+                query, [categoryId], 
+                (err, data) => {
+                    if(err) reject(`${err}`);
+                    else resolve(data);
+                }
+            );
+
+        });
+    }
 }
 
 module.exports = OrderStorage;
