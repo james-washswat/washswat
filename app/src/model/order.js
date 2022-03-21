@@ -51,26 +51,6 @@ class Order {
             return { success: false, err };
         }
     }
-
-    // async list(categoryId) {
-    //     try {
-    //         const orders = await OrderStorage.getOrderInfo(categoryId);
-    //         if (orders) {
-    //             return { 
-    //                 success: true, 
-    //                 info: [
-    //                     {
-    //                         category: categoryId,
-    //                         orders: orders,
-    //                     },
-    //                 ],
-    //             };
-    //         };
-    //         return { success: false, msg: "Category ID not found" };
-    //     } catch (err) {
-    //         return { success: false, err };
-    //     }
-    // }
 }
 
 module.exports = Order;

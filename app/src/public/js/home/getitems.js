@@ -12,7 +12,7 @@ function showItems(orderId) {
 }
  
 function displayItems(orderId, json) {
-    const container = document.querySelector(`#collapse-${orderId}`);
+    const container = document.querySelector(`#itemlist-${orderId}`);
     container.innerHTML = createHTMLStringOpen(json);
 }
 
@@ -20,8 +20,10 @@ function createHTMLStringOpen(json) {
     const data = JSON.parse(json);
     const items = data.items;
 
+    if (items.length < 1) return "";
+
     let html = `<div class="accordion-body">`;
-    for (var i in items) {
+    for (let i in items) {
         html = html.concat(`<h6>${items[i].name}</h6>`);
     }
     html = html.concat(`<div>`);

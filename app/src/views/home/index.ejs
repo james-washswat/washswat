@@ -16,27 +16,25 @@
             <div class="col-lg-1 fs-4">
                 <!-- 카테고리 이름 -->
                 <div>
-                    <p><%= data[i].categoryName %></p>
+                    <h5><%= data[i].categoryName %></h5>
                 </div>
                 <!-- 카테고리별 주문 개수 -->
                 <div>
-                    <p><%= data[i].orderCount %></p>
+                    <h6><%= data[i].orderCount %></h6>
                 </div>
                 <div>
-                    <div class="row">
-                        <% for(var j=0; j < data[i].orders.length; j++) { %>
-                        <div class="col">
-                            <p>
-                                <button id="<%= data[i].orders[j].id %>" class="btn btn-primary fs-6" type="submit" onclick="showItems('<%= data[i].orders[j].id %>');">
-                                    <%= data[i].orders[j].id %>
-                                </button>
-                                <div id="collapse-<%= data[i].orders[j].id %>" expend="false">
-                                    <h6></h6>
-                                </div>
-                            </p>
-                        </div>
-                        <% } %>
+                    <% for(var j=0; j < data[i].orders.length; j++) { %>
+                        <% const orderId = data[i].orders[j].id %>
+                        <% const itemCount = data[i].orders[j].item_cnt %>
+                    <p>
+                        <button id="<%=orderId%>" class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#itemlist-<%=orderId%>"
+                            aria-expanded="false" aria-controls="itemlist-<%=orderId%>" onclick="showItems('<%= orderId %>');">
+                            <%= orderId %><span class="badge bg-secondary"><%=itemCount%></span>
+                        </button>
+                    </p>
+                    <div class="collapse" id="itemlist-<%=orderId%>">
                     </div>
+                    <% } %>
                 </div>
             </div>
             <% } %>

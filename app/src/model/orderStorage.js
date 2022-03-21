@@ -42,7 +42,8 @@ class OrderStorage {
     }
     static getOrderList(categoryId) {
         return new Promise((resolve, reject) => {
-            const query = "select * from orders where category_id = ?;";
+            // const query = "select id from orders where category_id = ?;";
+            const query = "select O.id, count(I.order_id) item_cnt from (select * from orders where category_id = ?) O left outer join item I on O.id = I.order_id group by O.id;";
             db.query(
                 query, [categoryId], 
                 (err, data) => {
