@@ -1,6 +1,5 @@
 "use strict";
 
-// const db = require("../config/db");
 import db from '../config/db.js';
 
 class OrderStorage {
@@ -63,5 +62,4 @@ class OrderStorage {
     }
 }
 
-// module.exports = OrderStorage;
 export default OrderStorage;

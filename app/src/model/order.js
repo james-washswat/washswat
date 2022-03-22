@@ -1,6 +1,5 @@
 "use strict";
 
-// const OrderStorage = require("./orderStorage");
 import OrderStorage from './orderStorage.js';
 
 class Order {
@@ -47,5 +46,4 @@ class Order {
     }
 }
 
-// module.exports = Order;
 export default Order;

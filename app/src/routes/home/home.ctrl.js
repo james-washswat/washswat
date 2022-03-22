@@ -1,7 +1,5 @@
 "use strict";
 
-// const logger = require("../../config/logger");
-// const Order = require("../../model/order");
 import logger from '../../config/logger.js';
 import Order from '../../model/order.js';
 
@@ -29,7 +27,4 @@ const output = {
     },
 }
 
-// module.exports = {
-//     output,
-// };
 export default output;
