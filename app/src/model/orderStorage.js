@@ -5,30 +5,34 @@ const db = require("../config/db");
 class OrderStorage {
     static getCategoryInfo(categoryId) {
         return new Promise((resolve, reject) => {
-            const query = "select * from categories;";
+            const query = "SELECT * FROM categories;";
             db.query(
                 query, 
                 (err, data) => {
-                    if(err) reject(`${err}`);
-                    else resolve(data);
+                    if(err) reject(`DB 조회중 에러 발생:\n${err}`);
+                    else resolve({
+                        success: true,
+                        list: data,
+                    });
                 }
             );
         })
     }
     static getOrderDetails(orderId) {
         return new Promise((resolve, reject) => {
-            const query = "select * from orders where id = ?;";
+            const query = "SELECT * FROM orders WHERE id = ?;";
             db.query(
                 query, [orderId], 
                 (err, data) => {
-                    if(err) reject(`${err}`);
+                    if(err) reject(`DB 조회중 에러 발생:\n${err}`);
                     else {
-                        const query = "select * from item where order_id = ?;";
+                        const query = "SELECT * FROM item WHERE order_id = ?;";
                         db.query(
                             query, [orderId], 
                             (err, data) => {
-                                if(err) reject(`${err}`);
+                                if(err) reject(`DB 조회중 에러 발생:\n${err}`);
                                 else resolve({
+                                    success: true,
                                     orderId: orderId,
                                     items: data,
                                 });
@@ -42,8 +46,10 @@ class OrderStorage {
     }
     static getOrderList(categoryId) {
         return new Promise((resolve, reject) => {
-            // const query = "select id from orders where category_id = ?;";
-            const query = "select O.id, count(I.order_id) item_cnt from (select * from orders where category_id = ?) O left outer join item I on O.id = I.order_id group by O.id;";
+            const query = "SELECT O.id, count(I.order_id) item_cnt \
+                FROM (SELECT * FROM orders WHERE category_id = ?) O LEFT OUTER JOIN item I \
+                ON O.id = I.order_id \
+                GROUP BY O.id;";
             db.query(
                 query, [categoryId], 
                 (err, data) => {

@@ -12,6 +12,8 @@ const output = {
 
         if (response.success) {
             res.render("home/index.ejs", { data: response.info });
+        } else {
+            res.status(500).send(`${response.err}`)
         }
     },
     order: async (req, res) => {

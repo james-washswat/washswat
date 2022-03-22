@@ -5,15 +5,8 @@ const OrderStorage = require("./orderStorage");
 class Order {
     async info(orderId) {
         try {
-            const order = await OrderStorage.getOrderDetails(orderId);
-            if (!order) {
-                return { success: false, msg: `There is no order for id: ${orderId}` };
-            }
-            return {
-                success: true,
-                orderId: orderId,
-                items: order.items,
-            }
+            const orderInfo = await OrderStorage.getOrderDetails(orderId);
+            return orderInfo;
         } catch (err) {
             return { success: false, err };
         }
@@ -21,19 +14,19 @@ class Order {
 
     async listAll() {
         try {
-            const categories = await OrderStorage.getCategoryInfo();
-            if (!categories) {
-                return { success: false, msg: "There is no category registered" };
+            const categoryInfo = await OrderStorage.getCategoryInfo();
+            if (!categoryInfo.success) {
+                return categoryInfo;
             }
 
             const response = {
                 success: true,
                 info: [],
             }
-            for (var i in categories) {
-                const cateId = categories[i].id
-                const cateName = categories[i].name
-                const cateOrderCnt = categories[i].order_cnt
+            for (var i in categoryInfo.list) {
+                const cateId = categoryInfo.list[i].id
+                const cateName = categoryInfo.list[i].name
+                const cateOrderCnt = categoryInfo.list[i].order_cnt
 
                 const orders = await OrderStorage.getOrderList(cateId);
                 if (orders) {
