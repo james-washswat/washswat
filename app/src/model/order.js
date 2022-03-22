@@ -3,9 +3,19 @@
 import OrderStorage from './orderStorage.js';
 
 class Order {
+    async delete(orderId) {
+        try {
+            const result = await OrderStorage.deleteOrder(orderId);
+            return result;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
     async info(orderId) {
         try {
             const orderInfo = await OrderStorage.getOrderDetails(orderId);
+            console.log(orderInfo);
             return orderInfo;
         } catch (err) {
             return { success: false, err };

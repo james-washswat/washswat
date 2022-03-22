@@ -3,63 +3,82 @@
 import db from '../config/db.js';
 
 class OrderStorage {
-    static getCategoryInfo(categoryId) {
+    static deleteOrder(orderId) {
         return new Promise((resolve, reject) => {
-            const query = "SELECT * FROM categories;";
-            db.query(
-                query, 
-                (err, data) => {
-                    if(err) reject(`DB 조회중 에러 발생:\n${err}`);
-                    else resolve({
-                        success: true,
-                        list: data,
-                    });
-                }
-            );
+            mySQLQuery({
+                text: "DELETE FROM item WHERE order_id = ?",
+                placeholder_arr: [orderId],
+            })
+            .then(mySQLQuery({
+                text: "DELETE FROM orders WHERE id = ?",
+                placeholder_arr: [orderId],
+            }))
+            .then(resolve({
+                success: true,
+                orderId: orderId,
+            }))
+            .catch((err) => reject(`DB 삭제중 에러 발생:\n${err}`));
         })
     }
+
+    static getCategoryInfo(categoryId) {
+        return new Promise((resolve, reject) => {
+            mySQLQuery({
+                text: "SELECT * FROM categories",
+            })
+            .then((data) => resolve({
+                success: true,
+                list: data,
+            }))
+            .catch((err) => reject(`DB 조회중 에러 발생:\n${err}`));
+        })
+    }
+
     static getOrderDetails(orderId) {
         return new Promise((resolve, reject) => {
-            const query = "SELECT * FROM orders WHERE id = ?;";
-            db.query(
-                query, [orderId], 
-                (err, data) => {
-                    if(err) reject(`DB 조회중 에러 발생:\n${err}`);
-                    else {
-                        const query = "SELECT * FROM item WHERE order_id = ?;";
-                        db.query(
-                            query, [orderId], 
-                            (err, data) => {
-                                if(err) reject(`DB 조회중 에러 발생:\n${err}`);
-                                else resolve({
-                                    success: true,
-                                    orderId: orderId,
-                                    items: data,
-                                });
-                            }
-                        );
-                    }
-                }
-            );
+            mySQLQuery({
+                text: "SELECT * FROM item WHERE order_id = ?",
+                placeholder_arr: [orderId],
+            })
+            .then((data) => resolve({
+                success: true,
+                orderId: orderId,
+                items: data,
+            }))
+            .catch((err) => reject(`DB 조회중 에러 발생:\n${err}`));
 
         });
     }
+
     static getOrderList(categoryId) {
         return new Promise((resolve, reject) => {
-            const query = "SELECT O.id, count(I.order_id) item_cnt \
+            mySQLQuery({
+                text: "SELECT O.id, count(I.order_id) item_cnt \
                 FROM (SELECT * FROM orders WHERE category_id = ?) O LEFT OUTER JOIN item I \
                 ON O.id = I.order_id \
-                GROUP BY O.id;";
-            db.query(
-                query, [categoryId], 
-                (err, data) => {
-                    if(err) reject(`${err}`);
-                    else resolve(data);
-                }
-            );
-
+                GROUP BY O.id;",
+                placeholder_arr: [categoryId]
+            })
+            .then(resolve)
+            .catch(reject);
         });
     }
+}
+
+function mySQLQuery(query) {
+    return new Promise(function (resolve, reject) {
+        try {
+            db.query(query.text, query.placeholder_arr, function (err, rows, fields) {
+                if (err) {
+                    return reject(err);
+                } else {
+                    return resolve(rows);
+                }
+            });
+        } catch (err) {
+            return reject(err);
+        }
+    });
 }
 
 export default OrderStorage;

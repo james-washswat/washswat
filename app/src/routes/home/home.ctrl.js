@@ -3,7 +3,7 @@
 import logger from '../../config/logger.js';
 import Order from '../../model/order.js';
 
-const output = {
+export const output = {
     home: async (req, res) => {
         const order = new Order();
         const response = await order.listAll();
@@ -27,4 +27,16 @@ const output = {
     },
 }
 
-export default output;
+export const process = {
+    deleteOrder: async (req, res) => {
+        const orderId = req.params.orderId;
+        const order = new Order();
+        const response = await order.delete(orderId);
+
+        // console.log(response);
+
+        res.json(JSON.stringify(response));
+    },
+}
+
+// export default output;
