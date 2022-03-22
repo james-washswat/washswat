@@ -1,6 +1,7 @@
 "use strict";
 
-const mysql = require("mysql");
+import mysql from 'mysql';
+import './env.js';
 
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -11,4 +12,4 @@ const db = mysql.createConnection({
 
 db.connect();
 
-module.exports = db;
+export default db;

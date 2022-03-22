@@ -1,6 +1,7 @@
 "use strict";
 
-const { createLogger, transports, format } = require("winston");
+// const { createLogger, transports, format } = require("winston");
+import { createLogger, transports, format } from 'winston';
 const { combine, timestamp, colorize, simple, printf, label } = format;
 
 const printFormat = printf(({ timestamp, level, label, message }) => {
@@ -43,4 +44,5 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 
-module.exports = logger;
+// module.exports = logger;
+export default logger;

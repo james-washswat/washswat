@@ -1,6 +1,7 @@
 "use strict";
 
-const OrderStorage = require("./orderStorage");
+// const OrderStorage = require("./orderStorage");
+import OrderStorage from './orderStorage.js';
 
 class Order {
     async info(orderId) {
@@ -46,4 +47,5 @@ class Order {
     }
 }
 
-module.exports = Order;
+// module.exports = Order;
+export default Order;

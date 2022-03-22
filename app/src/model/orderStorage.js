@@ -1,6 +1,7 @@
 "use strict";
 
-const db = require("../config/db");
+// const db = require("../config/db");
+import db from '../config/db.js';
 
 class OrderStorage {
     static getCategoryInfo(categoryId) {
@@ -62,4 +63,5 @@ class OrderStorage {
     }
 }
 
-module.exports = OrderStorage;
+// module.exports = OrderStorage;
+export default OrderStorage;

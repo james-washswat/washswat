@@ -1,13 +1,12 @@
 "use strict";
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
-dotenv.config();
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import router from './src/routes/home/index.js';
 
 const app = express();
-
-const home = require("./src/routes/home");
+const __dirname = path.resolve();
 
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
@@ -15,6 +14,6 @@ app.set("view engine", "ejs");
 app.use(express.static(`${__dirname}/src/public`));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use("/", home);
+app.use("/", router);
 
-module.exports = app;
+export default app;
