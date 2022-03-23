@@ -7,7 +7,7 @@
 import app from '../app.js';
 import logger from '../src/config/logger.js';
 
-const PORT = process.env.WEB_PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
     logger.info(`Server start, Port=${PORT}`);
