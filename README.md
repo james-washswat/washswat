@@ -6,7 +6,7 @@
 ![washswat](https://img.shields.io/badge/wash-swat-green)
 
 
-과제로 주어진 WebApp과 Backend 서비스를 구현한다.
+과제로 주어진 WebApp과 Backend 서비스를 구현한다
 
 ## Description
 
@@ -52,7 +52,7 @@ Backend는 MariaDB database를 사용하며 다음 기능을 제공한다.
     ````
 * Backend 환경변수 설정
 
-    app/.env 파일을 만들고 다음 정보를 실제 환경에 맞게 설정한다
+    services/.env 파일을 만들고 다음 정보를 실제 환경에 맞게 설정한다
     ```
     NODE_ENV="dev"
 
@@ -65,7 +65,7 @@ Backend는 MariaDB database를 사용하며 다음 기능을 제공한다.
     ````
 * DB 구성
 
-    Database와 User를 생성하고 mysql 클라이언트를 사용하여 다음 파일을 실행하면, 필요한 테이블을 생성하고 샘플 데이터까지 입력한다.
+    Database와 User를 생성하고 mysql 클라이언트를 사용하여 다음 파일을 실행하면, 필요한 테이블을 생성하고 샘플 데이터까지 입력한다
 
     * app/src/resource/ddl/init.sql
 
@@ -85,13 +85,6 @@ Backend는 MariaDB database를 사용하며 다음 기능을 제공한다.
     npm install
     npm start
     ```
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
 
 ## Authors
 
