@@ -1,4 +1,4 @@
-# WashSwat 과제 전형
+# 세탁특공대 과제 전형
 ![CI](https://github.com/nodejs/nodejs.org/actions/workflows/ci.yml/badge.svg)
 ![nodejs](https://img.shields.io/badge/nodejs-%5E16.14.0-red)
 ![javascript](https://img.shields.io/badge/javascript-100%25-yellow)
@@ -6,7 +6,7 @@
 ![washswat](https://img.shields.io/badge/wash-swat-green)
 
 
-[과제](https://washswat.notion.site/Backoffice-Dev-Engineer-55ac50d19e484cdcb632a9b169ecc0a4)로 주어진 WebApp과 Backend 서비스를 구현한다.
+과제로 주어진 WebApp과 Backend 서비스를 구현한다.
 
 ## Description
 
