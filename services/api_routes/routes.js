@@ -3,6 +3,7 @@
 const controller = require('../controllers/controller');
 
 module.exports = (app) => {
-app.route('/about').get(controller.about);
-app.route('/distance/:zipcode1/:zipcode2').get(controller.getDistance);
+    app.route('/about').get(controller.about);
+    app.route('/orders/:orderId').get(controller.getOrder);
+    app.route('/orders/:orderId').delete(controller.delOrder);
 }

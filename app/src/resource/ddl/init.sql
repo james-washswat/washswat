@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
     id VARCHAR(16) NOT NULL,
     category_id INT NOT NULL,
-    -- customer_id INT NOT NULL,
     ordered_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories(id)
@@ -23,25 +22,19 @@ CREATE TABLE orders (
 DROP TABLE IF EXISTS item;
 CREATE TABLE item (
     order_id VARCHAR(16) NOT NULL,
-    name VARCHAR(64) NOT NULL, -- << 의류에 부탁된 바코드 숫자
+    name VARCHAR(64) NOT NULL, -- << 의류에 부착된 바코드 숫자
     CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 SET foreign_key_checks = 1;
 
 
--- 카테고리별 주문 조회
-SELECT O.* FROM orders O, categories C WHERE O.category_id = C.id and C.id = 1;
-
-
 -- 샘플 데이터 입력
-DELETE FROM categories;
 ALTER TABLE categories AUTO_INCREMENT = 1;
 INSERT INTO categories (id, name, order_cnt) VALUES 
 (1, '잠겨있는 주문', 1), (2, '아이템 생성 안됨', 558), (3, '가격 설정 안됨', 536), 
 (4, '보풀 제거 필요', 3), (5, '얼룩 케어 필요', 13), (6, '컴플레인', 1), 
 (7, '수선', 2), (8, '바지 앞주름 잡기', 2);
 
-DELETE FROM orders;
 INSERT INTO orders (id, category_id) VALUES 
 ('YJA352CB0302927', 1), 
 ('YJA352CB0302928', 2),('YJA352CB0302929', 2),('YJA352CB0302930', 2),('YJA352CB0302931', 2),('YJA352CB0302932', 2),('YJA352CB0302933', 2),('YJA352CB0302934', 2),('YJA352CB0302935', 2),('YJA352CB0302936', 2),('YJA352CB0302937', 2),
@@ -71,7 +64,6 @@ INSERT INTO orders (id, category_id) VALUES
 ('YJA352CB0308001', 7),('YJA352CB0308002', 7),
 ('YJA352CB0309001', 8),('YJA352CB0309002', 8);
 
-DELETE FROM item;
 INSERT INTO item (order_id, name) VALUES 
 ('YJA352CB0304001', '46-0-330'),('YJA352CB0304001', '46-0-331'),('YJA352CB0304001', '46-0-332'),('YJA352CB0304001', '46-0-333'),('YJA352CB0304001', '46-0-334'),('YJA352CB0304001', '46-0-335'),('YJA352CB0304001', '46-0-336'),('YJA352CB0304001', '46-0-337'),('YJA352CB0304001', '46-0-338'),('YJA352CB0304001', '46-0-339'),
 ('YJA352CB0304002', '46-0-340'),('YJA352CB0304002', '46-0-341'),('YJA352CB0304002', '46-0-342'),('YJA352CB0304002', '46-0-343'),('YJA352CB0304002', '46-0-344'),('YJA352CB0304002', '46-0-345'),('YJA352CB0304002', '46-0-346'),('YJA352CB0304002', '46-0-347'),('YJA352CB0304002', '46-0-348'),('YJA352CB0304002', '46-0-349'),
@@ -90,3 +82,9 @@ UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id
 UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id = 6) where id = 6;
 UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id = 7) where id = 7;
 UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id = 8) where id = 8;
+
+
+-- 샘플 데이터 초기화
+DELETE FROM item;
+DELETE FROM orders;
+DELETE FROM categories;

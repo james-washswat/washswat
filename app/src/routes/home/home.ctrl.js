@@ -8,11 +8,11 @@ export const output = {
         const order = new Order();
         const response = await order.listAll();
 
-        // console.log(response);
-
         if (response.success) {
+            logger.info(`${req.method} ${req.path} 200`);
             res.render("home/index.ejs", { data: response.info });
         } else {
+            logger.error(`${req.method} ${req.path} 500`);
             res.status(500).send(`${response.err}`)
         }
     },
@@ -20,10 +20,15 @@ export const output = {
         const orderId = req.params.orderId;
         const order = new Order();
         const response = await order.info(orderId);
+        const body = JSON.stringify(response);
 
-        // console.log(response);
+        if(response.success) {
+            logger.info(`${req.method} ${req.path} 200 ${body}`);
+        } else {
+            logger.error(`${req.method} ${req.path} 500 ${body}`);
+        }
 
-        res.json(JSON.stringify(response));
+        res.json(body);
     },
 }
 
@@ -33,10 +38,8 @@ export const process = {
         const order = new Order();
         const response = await order.delete(orderId);
 
-        // console.log(response);
+        console.log(response);
 
         res.json(JSON.stringify(response));
     },
 }
-
-// export default output;

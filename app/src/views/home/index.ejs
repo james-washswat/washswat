@@ -55,7 +55,9 @@
                         <!-- 주문 버튼 -->
                         <button id="<%=orderId%>" class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#itemlist-<%=orderId%>"
                             aria-expanded="false" aria-controls="itemlist-<%=orderId%>" onclick="showItems('<%=orderId%>');">
-                            <%= orderId %>
+
+                            <!-- 주문 아이디 -->
+                            <span><%= orderId %></span>
 
                             <!-- 아이템 개수 -->
                             <span class="badge bg-info text-dark"><%=itemCount%></span>

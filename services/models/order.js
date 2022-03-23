@@ -1,6 +1,6 @@
 "use strict";
 
-import OrderStorage from './orderStorage.js';
+const OrderStorage = require('./orderStorage.js');
 
 class Order {
     async delete(orderId) {
@@ -14,10 +14,11 @@ class Order {
 
     async info(orderId) {
         try {
-            const result = await OrderStorage.getOrderDetails(orderId);
-            return result;
+            const orderInfo = await OrderStorage.getOrderDetails(orderId);
+            // console.log(orderInfo);
+            return orderInfo;
         } catch (err) {
-            return { success: false, err: `${err}` };
+            return { success: false, err };
         }
     }
 
@@ -55,4 +56,4 @@ class Order {
     }
 }
 
-export default Order;
+module.exports = Order;

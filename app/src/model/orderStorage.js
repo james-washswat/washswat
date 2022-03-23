@@ -1,23 +1,58 @@
 "use strict";
 
 import db from '../config/db.js';
+import fetch from 'node-fetch';
+
+const orderServiceHost = process.env.ORDER_SERVICE_HOST || 'localhost';
+const orderServicePort = process.env.ORDER_SERVICE_PORT || 3000;
+const orderServiceUrl = `http://${orderServiceHost}:${orderServicePort}/orders`;
 
 class OrderStorage {
     static deleteOrder(orderId) {
         return new Promise((resolve, reject) => {
-            mySQLQuery({
-                text: "DELETE FROM item WHERE order_id = ?",
-                placeholder_arr: [orderId],
+            const url = `${orderServiceUrl}/${orderId}`;
+            const options = {
+                method: "DELETE",
+            }
+
+            fetch(url, options)
+            .then((response) => response.json())
+            .then((data) => {
+                const result = JSON.parse(data);
+                if (result.success) {
+                    resolve(result);
+                } else {
+                    reject(result.err);
+                }
             })
-            .then(mySQLQuery({
-                text: "DELETE FROM orders WHERE id = ?",
-                placeholder_arr: [orderId],
-            }))
-            .then(resolve({
-                success: true,
-                orderId: orderId,
-            }))
-            .catch((err) => reject(`DB 삭제중 에러 발생:\n${err}`));
+            .catch((err) => {
+                console.log(err);
+                resolve(err);
+            });
+        })
+    }
+
+    static getOrderDetails(orderId) {
+        return new Promise((resolve, reject) => {
+            const url = `${orderServiceUrl}/${orderId}`;
+            const options = {
+                method: "GET",
+            }
+
+            fetch(url, options)
+            .then((response) => response.json())
+            .then((data) => {
+                const result = JSON.parse(data);
+                if (result.success) {
+                    resolve(result);
+                } else {
+                    reject(result.err);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                resolve(err);
+            });
         })
     }
 
@@ -32,22 +67,6 @@ class OrderStorage {
             }))
             .catch((err) => reject(`DB 조회중 에러 발생:\n${err}`));
         })
-    }
-
-    static getOrderDetails(orderId) {
-        return new Promise((resolve, reject) => {
-            mySQLQuery({
-                text: "SELECT * FROM item WHERE order_id = ?",
-                placeholder_arr: [orderId],
-            })
-            .then((data) => resolve({
-                success: true,
-                orderId: orderId,
-                items: data,
-            }))
-            .catch((err) => reject(`DB 조회중 에러 발생:\n${err}`));
-
-        });
     }
 
     static getOrderList(categoryId) {
@@ -65,17 +84,21 @@ class OrderStorage {
     }
 }
 
+
 function mySQLQuery(query) {
     return new Promise(function (resolve, reject) {
         try {
-            db.query(query.text, query.placeholder_arr, function (err, rows, fields) {
-                if (err) {
-                    return reject(err);
-                } else {
-                    return resolve(rows);
-                }
-            });
-        } catch (err) {
+            db.query(
+                query.text,
+                query.placeholder_arr,
+                (err, rows, fields) => {
+                    if(err) {
+                        return reject(err);
+                    } else {
+                        return resolve(rows);
+                    }
+                });
+        } catch(err) {
             return reject(err);
         }
     });
