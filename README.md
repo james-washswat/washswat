@@ -95,7 +95,7 @@ command to run if program contains helper info
 
 ## Authors
 
-[김지영](http://puremild.github.io)
+[김지영](mailto:podomat.ex@gmail.com)
 
 ## Tag History
 
