@@ -3,14 +3,14 @@
 import db from '../config/db.js';
 import fetch from 'node-fetch';
 
-const orderServiceHost = process.env.ORDER_SERVICE_HOST || 'localhost';
-const orderServicePort = process.env.ORDER_SERVICE_PORT || 3000;
-const orderServiceUrl = `http://${orderServiceHost}:${orderServicePort}/orders`;
-
 class OrderStorage {
+    static ServiceAddr = process.env.ORDER_SERVICE_HOST || 'localhost';
+    static ServicePort = process.env.ORDER_SERVICE_PORT || 3000;
+    static ServiceUrl = `http://${OrderStorage.ServiceAddr}:${OrderStorage.ServicePort}/orders`;
+
     static deleteOrder(orderId) {
         return new Promise((resolve, reject) => {
-            const url = `${orderServiceUrl}/${orderId}`;
+            const url = `${OrderStorage.ServiceUrl}/${orderId}`;
             const options = {
                 method: "DELETE",
             }
@@ -34,7 +34,7 @@ class OrderStorage {
 
     static getOrderDetails(orderId) {
         return new Promise((resolve, reject) => {
-            const url = `${orderServiceUrl}/${orderId}`;
+            const url = `${OrderStorage.ServiceUrl}/${orderId}`;
             const options = {
                 method: "GET",
             }
@@ -58,7 +58,7 @@ class OrderStorage {
 
     static getCategoryInfo(categoryId) {
         return new Promise((resolve, reject) => {
-            mySQLQuery({
+            OrderStorage.mySQLQuery({
                 text: "SELECT * FROM categories",
             })
             .then((data) => resolve({
@@ -71,7 +71,7 @@ class OrderStorage {
 
     static getOrderList(categoryId) {
         return new Promise((resolve, reject) => {
-            mySQLQuery({
+            OrderStorage.mySQLQuery({
                 text: "SELECT O.id, count(I.order_id) item_cnt \
                 FROM (SELECT * FROM orders WHERE category_id = ?) O LEFT OUTER JOIN item I \
                 ON O.id = I.order_id \
@@ -82,26 +82,25 @@ class OrderStorage {
             .catch(reject);
         });
     }
-}
 
-
-function mySQLQuery(query) {
-    return new Promise(function (resolve, reject) {
-        try {
-            db.query(
-                query.text,
-                query.placeholder_arr,
-                (err, rows, fields) => {
-                    if(err) {
-                        return reject(err);
-                    } else {
-                        return resolve(rows);
-                    }
-                });
-        } catch(err) {
-            return reject(err);
-        }
-    });
+    static mySQLQuery(query) {
+        return new Promise(function (resolve, reject) {
+            try {
+                db.query(
+                    query.text,
+                    query.placeholder_arr,
+                    (err, rows, fields) => {
+                        if(err) {
+                            return reject(err);
+                        } else {
+                            return resolve(rows);
+                        }
+                    });
+            } catch(err) {
+                return reject(err);
+            }
+        });
+    }
 }
 
 export default OrderStorage;

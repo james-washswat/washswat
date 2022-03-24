@@ -1,4 +1,4 @@
-# 세탁특공대 과제 전형
+# 세탁 주문 관리
 ![CI](https://github.com/nodejs/nodejs.org/actions/workflows/ci.yml/badge.svg)
 ![nodejs](https://img.shields.io/badge/nodejs-%5E16.14.0-red)
 ![javascript](https://img.shields.io/badge/javascript-100%25-yellow)
@@ -14,6 +14,10 @@
 * WebApp: 카테고리별로 구분된 주문과 주문에 포함된 아이템을 조회하고 관리하는 웹 UI
 * Backend: WebApp에 주문 정보 관리기능을 제공
 
+### Screenshot
+
+![screenshot](/app/src/resource/images/screenshot.JPG)
+
 WebApp은 다음 기능을 제공한다.
 * 브라우저로 접속시, 주문 DB를 직접 조회하여 전체 주문을 카테고리별로 구분하여 UI 출력
 * 개별 주문 클릭시, Backend를 연동하여 해당 주문의 상세정보(아이템 리스트)를 조회하여 UI 출력
@@ -21,7 +25,9 @@ WebApp은 다음 기능을 제공한다.
 
 Backend는 MariaDB database를 사용하며 다음 기능을 제공한다.
 * 주문 상세 정보 조회 요청 수신시, DB에서 해당 주문 정보를 조회하여 응답
+    * API : GET /orders/${orderId}
 * 주문 삭제 요청 수신시, DB에서 해당 주문 정보를 삭제
+    * API : DELETE /orders/${orderId}
 
 ## Getting Started
 
