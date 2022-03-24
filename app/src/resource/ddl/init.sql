@@ -82,9 +82,3 @@ UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id
 UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id = 6) where id = 6;
 UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id = 7) where id = 7;
 UPDATE categories SET order_cnt = (SELECT count(*) FROM orders WHERE category_id = 8) where id = 8;
-
-
--- 샘플 데이터 초기화
-DELETE FROM item;
-DELETE FROM orders;
-DELETE FROM categories;
