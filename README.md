@@ -94,10 +94,13 @@ Backend는 MariaDB database를 사용하며 다음 기능을 제공한다.
 
 ## Authors
 
-[김지영](mailto:podomat.ex@gmail.com)
+* [Kim Jiyoung](mailto:podomat.ex@gmail.com)
 
 ## Tag History
 
+* v0.4.0
+    * README 작성
+    * 코드 구조 정리
 * v0.3.0
     * 주문 삭제 개발
     * Backend 서비스 분리
@@ -111,7 +114,7 @@ Backend는 MariaDB database를 사용하며 다음 기능을 제공한다.
 
 ## License
 
-MIT
+* MIT
 
 ## Acknowledgments
 
